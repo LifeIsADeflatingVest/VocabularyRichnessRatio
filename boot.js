@@ -1,19 +1,18 @@
 function booting() {
 	
+	async function main() {
+	  await countAppearances();
+	  await uniqueWords();  
+	  await stops();
+	  await uncommon();
+	  await calculateRatios();
+	  await doubleAdjs();
+	  await showResults();
+	  updateProg("100%");
+	  $("#processing").fadeOut(500);
+	}
 
-async function main() {
-  await countAppearances();
-  await uniqueWords();  
-  await stops();
-  await uncommon();
-  await calculateRatios();
-  await doubleAdjs();
-  await showResults();
-  updateProg("100%");
-  $("#processing").fadeOut(500);
-}
-
-main();
+	main();
 	
 	function uniqueWords() {		
 		return new Promise(resolve => {		
