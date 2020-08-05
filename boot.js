@@ -13,19 +13,7 @@ async function main() {
   $("#processing").fadeOut(500);
 }
 
-main()
-	/*
-	updateProg("0%");
-	countAppearances();
-	updateProg("20%");
-	uniqueWords();
-	updateProg("50%");
-	calculateRatios();
-	updateProg("80%");
-	showResults();
-	updateProg("90%");
-	doubleAdjs();
-	*/
+main();
 	
 	function uniqueWords() {		
 		return new Promise(resolve => {		
