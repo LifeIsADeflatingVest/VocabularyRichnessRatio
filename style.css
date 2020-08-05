@@ -78,8 +78,13 @@ input {
 	position:absolute;
 	top:0px;
 	left:0px;
+	font-size:1.5em;
+	font-family: Helvetica;
 	display:none;
 	padding:20px;
+}
+#ci {
+	font-size:1.3em;
 }
 .button2 {
 	font-family:Verdana;
