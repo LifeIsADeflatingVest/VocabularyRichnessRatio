@@ -8,7 +8,7 @@ function booting() {
 	  await calculateRatios();
 	  await doubleAdjs();
 	  await showResults();
-	  updateProg("100%");
+	  updateProg("100%", "Ready!");
 	  $("#processing").fadeOut(500);
 	}
 
@@ -16,7 +16,7 @@ function booting() {
 	
 	function uniqueWords() {		
 		return new Promise(resolve => {		
-			updateProg("30%");
+			updateProg("30%", "Detecting stop words…");
 			for (var i = 0; i < array.length; i++) {
 				if (!(compareArray.includes(array[i]))) {
 					compareArray.push(array[i]);
@@ -30,7 +30,7 @@ function booting() {
 	}
 	function stops() {		
 		return new Promise(resolve => {		
-			updateProg("45%");
+			updateProg("45%", "Detecting uncommon words…");
 			for (var i = 0; i < array.length; i++) {
 				if (stopWords.includes(array[i])) {
 					stopWordsCount ++;
@@ -41,7 +41,7 @@ function booting() {
 	}
 	function uncommon() {		
 		return new Promise(resolve => {		
-			updateProg("60%");
+			updateProg("60%", "Calculating ratios…");
 			for (var i = 0; i < array.length; i++) {
 				if (!common10k.includes(array[i])) {
 					uncommonCount ++;
@@ -52,7 +52,7 @@ function booting() {
 	}
 	function calculateRatios() {
 		return new Promise(resolve => {	
-			updateProg("75%"); 
+			updateProg("75%", "Detecting repetitive adjectives…"); 
 			preDoubles = wordsX.toString();
 			doubles = preDoubles.split(",");
 			uncommonWordsRatio = uncommonCount/wordcount*100;
@@ -89,12 +89,12 @@ function booting() {
 				typeFactor = 30;
 				wordsX = getKeyByValue(counts,2);
 			}	
-			updateProg("15%");
+			updateProg("15%", "Finding unique words…");
 			setTimeout(() => resolve(), 1000);
 		})
 	}
 	function doubleAdjs () {
-		updateProg("90%");
+		updateProg("90%", "Preparing results…");
 		return new Promise(resolve => {
 			for (var z = 0; z < doubles.length; z++) {
 				if ((!hasNumber(doubles[z])) && (RiTa.containsWord(doubles[z])) && (posOK(doubles[z])) && (!commonAdjs.includes(doubles[z]))) {
@@ -106,7 +106,7 @@ function booting() {
 		})
 	}
 	function showResults(){
-		updateProg("99%");
+		updateProg("99%", "Cleaning up…");
 		return new Promise(resolve => {
 			document.getElementById("ci").innerHTML = ("Wordcount: <span style='color:cyan'>" + wordcount + "</span><br>Unique Words: <span style='color:cyan'>" + compareArray.length+ "</span> of which adjectives: <span style='color:cyan'>" + uniqueAdjs.length + "<br><br></span><b>Vocabulary Richness Ratio</b>: <span style='color:cyan'>" + vrr + "%</span>");
 			setTimeout(
@@ -130,7 +130,8 @@ function booting() {
 			return false;
 		}
 	}
-	function updateProg(t) {
+	function updateProg(t, t2) {
 		document.getElementById("prog").innerHTML = t;
+		document.getElementById("prog2").innerHTML = t2;
 	}
 }
