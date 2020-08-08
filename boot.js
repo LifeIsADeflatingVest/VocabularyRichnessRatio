@@ -66,29 +66,24 @@ function booting() {
 		return new Promise(resolve => {		
 			array.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });		
 			if (wordcount > 150000) { // very long novel
-				typeFactor = 140;
 				wordsX = getKeyByValue(counts,4);
 			}
 			else if ((wordcount <= 150000) && (wordcount > 100000)) { // long novel
-				typeFactor = 120;
 				wordsX = getKeyByValue(counts,4);
 			}
 			else if ((wordcount <= 100000) && (wordcount > 50000)) { // novel
-				typeFactor = 100;
 				wordsX = getKeyByValue(counts,3);
 			}
 			else if ((wordcount <= 50000) && (wordcount > 20000)) { // novella
-				typeFactor = 80;
 				wordsX = getKeyByValue(counts,3);
 			}
 			else if ((wordcount <= 20000) && (wordcount > 1500)) { //short story
-				typeFactor = 60;
 				wordsX = getKeyByValue(counts,2);
 			}
 			else { // poems
-				typeFactor = 30;
 				wordsX = getKeyByValue(counts,2);
 			}	
+			typeFactor = wordcount/1000;
 			updateProg("15%", "Finding unique words…");
 			setTimeout(() => resolve(), 1000);
 		})
