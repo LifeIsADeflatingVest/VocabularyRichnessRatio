@@ -8,6 +8,9 @@ body {
 h1 {
 	font-size:1.3em;
 }
+h2 {
+	font-size:1.2em;
+}
 p {
 	font-size:1em;
 	margin-top: 10px;
@@ -15,7 +18,6 @@ p {
 input {
 	font-size:1.1em;
 	padding:15px;
-	border: 2px solid cyan;
 	font-family: Verdana;
 }
 .lds-ellipsis {
@@ -86,13 +88,45 @@ input {
 #ci {
 	font-size:1.3em;
 }
+.button {
+	font-family:Verdana;
+	font-size:0.9em;
+	margin-top:7px;
+	padding:10px;
+	border-radius:7px;
+	background: steelblue;
+	color:blanchedalmond;
+}
+.button:hover {
+	animation: btn_hover 0.6s;
+	animation-fill-mode: forwards;
+}
 .button2 {
 	font-family:Verdana;
 	font-size:1.1em;
 	margin-top:10px;
 	padding:15px;
+	border-radius:7px;
+	background:steelblue;
+	color:blanchedalmond;
+}
+.button2:hover {
+	animation: btn_hover 0.6s;
+	animation-fill-mode: forwards;
+}
+@keyframes btn_hover{
+	0% {
+		box-shadow: 0px 0px 0px 0px cornsilk;
+	}
+	100% {
+		box-shadow: 10px 10px 30px 0px cornsilk;
+	}
 }
 #select {
+	display:none;
+}
+#sample {
+	margin-top:30px;
 	display:none;
 }
 

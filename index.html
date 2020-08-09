@@ -7,10 +7,18 @@
 <script src="boot.js"></script>
 <div id="select">
 	<h1>Select the File Containing Your Text</h1>
-	<p>Please note that only .txt files are accepted. For best results, remove unnecessary details such as acknowledgments, table of contents, etc.
-	</p>
+	<p>Please note that only .txt files are accepted. For best results, remove unnecessary details such as acknowledgments, table of contents, etc.</p>
 	<input type="file" accept=".txt" id="file_input" class="button" />
 	<p style="font-size:0.85em;font-style:italic">The process might take several seconds for very long texts, please be patient.</p>
+</div>
+<div id="sample">
+	<h2>Sample Texts</h2>
+	<p style="font-size:0.9em">If you want to try the program, feel free to select one of the preloaded texts below.</p>
+	<table>
+	<tr><td><button class="button" id="tx1" onClick="loadSample('christmascarol.txt');"><i>A Christmas Carol</i>, by Charles Dickens</button></td></tr>
+	<tr><td><button class="button" id="tx2" onClick="loadSample('GreatGatsby.txt');"><i>The Great Gatsby</i>, by F. Scott Fitzgerald</button></td></tr>
+	<tr><td><button class="button" id="tx3" onClick="loadSample('Frankenstein.txt');"><i>Frankenstein</i>, by Mary Shelley</button></td></tr>
+	</table>
 </div>
 <div id="processing">
 	<p id="prog"></p>
@@ -53,6 +61,7 @@ wordLists();
 
 $(document).ready(function(){
 $("#select").fadeIn(1000);
+$("#sample").fadeIn(1000);
 $('#file_input').on('change', function(e){
     	if (this.files[0].type.match('text/plain')) {
 			document.getElementById("loader").style.display = "inline-block";
@@ -67,6 +76,7 @@ $('#file_input').on('change', function(e){
 		    wordcount = array.length;
 			$("#processing").fadeIn(500);
 		    $("#select").fadeOut(1000);
+			$("#sample").fadeOut(1000);
 		    booting();
 	})
         } else {
@@ -79,7 +89,21 @@ function readFile(file, callback){
 	reader.onload = callback
 	reader.readAsText(file);
 }
-
-
+function loadSample(theText) {
+	jQuery.get(theText, function(data) {
+		text = data;
+		text = text.toLowerCase();
+		text = text.replace(/[.,\/#!?'"“”…’‘$%\^&\*;:{}=\-_`~()0-9]/g,"");
+		text = text.replace(/\s{2,}/g," ");
+		text = text.replace(/\s+/g,' ').trim();
+		text = text.toLowerCase();
+		array = text.split(" ");
+		wordcount = array.length;
+		$("#processing").fadeIn(500);
+		$("#select").fadeOut(1000);
+		$("#sample").fadeOut(1000);
+		booting();
+	});
+}
 </script>
 </html>
