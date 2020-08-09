@@ -14,6 +14,16 @@ function booting() {
 
 	main();
 	
+	function countAppearances () {
+		return new Promise(resolve => {		
+			array.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+			allWords = getKeyByValue(counts,2).concat(getKeyByValue(counts,3),getKeyByValue(counts,4));
+			typeFactor = wordcount/1000;
+			updateProg("15%", "Finding unique words…");
+			setTimeout(() => resolve(), 1000);
+		})
+	}
+	
 	function uniqueWords() {		
 		return new Promise(resolve => {		
 			updateProg("30%", "Detecting stop words…");
@@ -53,7 +63,7 @@ function booting() {
 	function calculateRatios() {
 		return new Promise(resolve => {	
 			updateProg("75%", "Detecting repetitive adjectives…"); 
-			preDoubles = wordsX.toString();
+			preDoubles = allWords.toString();
 			doubles = preDoubles.split(",");
 			uncommonWordsRatio = uncommonCount/wordcount*100;
 			uniqueWordsRatio = compareArray.length/wordcount*typeFactor;
@@ -62,37 +72,11 @@ function booting() {
 			setTimeout(() => resolve(), 1000);
 		})
 	}	
-	function countAppearances () {
-		return new Promise(resolve => {		
-			array.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });		
-			if (wordcount > 150000) { // very long novel
-				wordsX = getKeyByValue(counts,4);
-			}
-			else if ((wordcount <= 150000) && (wordcount > 100000)) { // long novel
-				wordsX = getKeyByValue(counts,4);
-			}
-			else if ((wordcount <= 100000) && (wordcount > 50000)) { // novel
-				wordsX = getKeyByValue(counts,3);
-			}
-			else if ((wordcount <= 50000) && (wordcount > 20000)) { // novella
-				wordsX = getKeyByValue(counts,3);
-			}
-			else if ((wordcount <= 20000) && (wordcount > 1500)) { //short story
-				wordsX = getKeyByValue(counts,2);
-			}
-			else { // poems
-				wordsX = getKeyByValue(counts,2);
-			}	
-			typeFactor = wordcount/1000;
-			updateProg("15%", "Finding unique words…");
-			setTimeout(() => resolve(), 1000);
-		})
-	}
 	function doubleAdjs () {
 		updateProg("90%", "Preparing results…");
 		return new Promise(resolve => {
 			for (var z = 0; z < doubles.length; z++) {
-				if ((!hasNumber(doubles[z])) && (RiTa.containsWord(doubles[z])) && (posOK(doubles[z])) && (!commonAdjs.includes(doubles[z]))) {
+				if ((RiTa.containsWord(doubles[z])) && (posOK(doubles[z])) && (!commonAdjs.includes(doubles[z]))) {
 					document.getElementById("reps").insertAdjacentHTML('beforeend', (doubles[z] + ", "));
 				}
 			}
@@ -113,9 +97,6 @@ function booting() {
 	}
 	function getKeyByValue(object, value) {
 	  return Object.keys(object).filter(key => object[key] === value);
-	}
-	function hasNumber(myString) {
-	  return /\d/.test(myString);
 	}
 	function posOK(w) {
 		if ((RiTa.isAdjective(w)) && !(RiTa.isVerb(w)) && !(RiTa.isNoun(w)) && (w.slice(-2) != "er") && (w.slice(-3) != "est")) {

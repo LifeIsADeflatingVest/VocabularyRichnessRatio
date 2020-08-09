@@ -32,7 +32,7 @@ var array = [];
 var compareArray = [];
 var wordcount = 0;
 var typeFactor;
-var wordsX;
+var allWords;
 var doubles;
 var preDoubles;
 var uniqueAdjs = [];
@@ -58,7 +58,7 @@ $('#file_input').on('change', function(e){
             readFile(this.files[0], function(e) {
 		    text = e.target.result;
 			text = text.toLowerCase();
-			text = text.replace(/[.,\/#!?'"“”…’‘$%\^&\*;:{}=\-_`~()]/g,"");
+			text = text.replace(/[.,\/#!?'"“”…’‘$%\^&\*;:{}=\-_`~()0-9]/g,"");
 			text = text.replace(/\s{2,}/g," ");
 			text = text.replace(/\s+/g,' ').trim();
 			text = text.toLowerCase();
