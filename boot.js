@@ -10,6 +10,7 @@ function booting() {
 	  await doubleAdjs();
 	  await showResults();
 	  updateProg("100%", "Ready!");
+	  document.getElementById("myBar").style.width = ('100%');
 	  $("#processing").fadeOut(500);
 	}
 
@@ -28,20 +29,13 @@ function booting() {
 	function uniqueWords() {		
 		return new Promise(resolve => {		
 			updateProg("0%", "Detecting unique words…");
-			
 			var worker = new Worker("wrk1.js");
 			worker.postMessage({ "args": [array ] });
-			/*
-			for (var i = 0; i < array.length; i++) {
-				if (!(compareArray.includes(array[i]))) {
-					compareArray.push(array[i]);
-				}
-			}
-			*/
 			worker.onmessage = function (event) {
 				if (event.data[0]<array.length-1) {
 					var theProgress = reRange(event.data[0],0,wordcount,0,30);
 					document.getElementById('prog').textContent = (theProgress + "%");
+					document.getElementById("myBar").style.width = (theProgress+'%');
 				}
 				else {
 					compareArray = event.data[1];
@@ -49,7 +43,6 @@ function booting() {
 					setTimeout(() => resolve(), 1000);
 				}
 			};
-			
 		})
 	}
 	function uniqueAdjectives() {
@@ -66,20 +59,13 @@ function booting() {
 	function stops() {		
 		return new Promise(resolve => {		
 			updateProg("35%", "Detecting stop words…");
-			
 			var worker = new Worker("wrk2.js");
 			worker.postMessage({ "args": [array,stopWords ] });
-			/*
-			for (var i = 0; i < array.length; i++) {
-				if (stopWords.includes(array[i])) {
-					stopWordsCount ++;
-				}
-			}
-			*/
 			worker.onmessage = function (event) {
 				if (event.data[0]<array.length-1) {
 					var theProgress = reRange(event.data[0],0,wordcount,35,70);
 					document.getElementById('prog').textContent = (theProgress + "%");
+					document.getElementById("myBar").style.width = (theProgress+'%');
 				}
 				else {
 					stopWordsCount = event.data[1];
@@ -92,20 +78,13 @@ function booting() {
 	function uncommon() {		
 		return new Promise(resolve => {		
 			updateProg("70%", "Detecting uncommon words…");
-
 			var worker = new Worker("wrk3.js");
 			worker.postMessage({ "args": [array, common10k ] });			
-			/*
-			for (var i = 0; i < array.length; i++) {
-				if (!common10k.includes(array[i])) {
-					uncommonCount ++;
-				}
-			}
-			*/
 			worker.onmessage = function (event) {
 				if (event.data[0]<array.length-1) {
 					var theProgress = reRange(event.data[0],0,wordcount,70,90);
 					document.getElementById('prog').textContent = (theProgress + "%");
+					document.getElementById("myBar").style.width = (theProgress+'%');
 				}
 				else {
 					uncommonCount = event.data[1];
@@ -129,6 +108,7 @@ function booting() {
 	}	
 	function doubleAdjs () {
 		updateProg("95%", "Detecting repetitive adjectives…");
+		document.getElementById("myBar").style.width = ('95%');
 		return new Promise(resolve => {
 			for (var z = 0; z < doubles.length; z++) {
 				if ((RiTa.containsWord(doubles[z])) && (posOK(doubles[z])) && (!commonAdjs.includes(doubles[z]))) {
@@ -141,6 +121,7 @@ function booting() {
 	}
 	function showResults(){
 		updateProg("99%", "Preparing results…");
+		document.getElementById("myBar").style.width = ('99%');
 		return new Promise(resolve => {
 			document.getElementById("ci").innerHTML = ("Wordcount: <span style='color:cyan'>" + wordcount + "</span><br>Unique Words: <span style='color:cyan'>" + compareArray.length+ "</span> of which adjectives: <span style='color:cyan'>" + uniqueAdjs.length + "<br><br></span><b>Vocabulary Richness Ratio</b>: <span style='color:cyan'>" + vrr + "%</span>");
 			setTimeout(
